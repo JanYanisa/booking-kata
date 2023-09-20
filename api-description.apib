@@ -1,0 +1,173 @@
+FORMAT: 1A
+
+# Axons Booking 
+
+# Rooms [/rooms]
+
+## As an admin I want to create a room [POST /rooms]
+
++ Request (application/json)
+
+    + Body
+
+            {
+                "name": "Room 1",
+                "description": "Room 1 description",
+                "capacity": 2,
+                "price": 100
+            }
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "id": 1,
+                "name": "Room 1",
+                "description": "Room 1 description",
+                "capacity": 2,
+                "price": 100,
+                "available": true
+            }
+
+## As a user I want to see a list of all available rooms [GET /rooms{?from,to}]
+
++ Parameters
+    + from: `2023-10-16` (string, required) - The date from which the user needed to see the available rooms
+    + to: `2023-10-18` (string, required) - The date to which the user needed to see the available rooms
+
++ Response 200 (application/json)
+
+    + Body
+        
+            {
+                "data": [
+                    {
+                        "id": 1,
+                        "name": "Room 1",
+                        "description": "Room 1 description",
+                        "capacity": 2,
+                        "price": 100,
+                        "available": true
+                    },
+                    {
+                        "id": 2,
+                        "name": "Room 2",
+                        "description": "Room 2 description",
+                        "capacity": 2,
+                        "price": 100,
+                        "available": true
+                    }
+                ]
+            }
+
++ Request with not available room
+
+    + Parameters
+        + from: `2023-01-01`
+        + to: `2023-01-02`
+
++ Response 200 (application/json)
+
+    No room available
+
+    + Body
+
+            {
+                "data": []
+            }
+
++ Request with invalid date
+
+    + Parameters
+        + from: `16 Oct 23`
+        + to: `18 Oct 23`
+
++ Response 400 (application/json)
+
+    + Body 
+
+            {
+                "message": "Invalid date format"
+            }
+
+## As a user I want to book a room [POST /rooms/{id}/books]
+
++ Parameters
+    + id: 1 (number, required) - The id of the room to be booked
+
++ Request booking successful
+
+    + Body 
+
+            {
+                "from": "2023-10-16",
+                "to": "2023-10-18",
+                "booker": {
+                    "name": "John Doe",
+                    "email": "john@doe.lol",
+                    "phone": "123456789"
+                },
+                "guest": {
+                    "adults": 2,
+                    "children": 0
+                }
+            }
+
++ Response 200 (application/json)
+
+    + Body 
+
+            {
+                "id": 1,
+                "name": "Room 1",
+                "description": "Room 1 description",
+                "capacity": 2,
+                "price": 100,
+                "available": false
+            }
+
++ Request book again shouldn't available
+
+    + Body
+
+            {
+                "from": "2023-10-16",
+                "to": "2023-10-18",
+                "booker": {
+                    "name": "John Doe",
+                    "email": "john@doe.lol",
+                    "phone": "123456789"
+                },
+                "guest": {
+                    "adults": 2,
+                    "children": 0
+                }
+            }
+
++ Response 400 (application/json)
+
+    + Body 
+        
+            {
+                "message": "Room not available"
+            }
+
+## View Available Rooms Again [GET /rooms]
+
+Room 1 shouldn't display (it's booked)
+
++ Response 200 (application/json)
+
+    + Body 
+
+            [
+                {
+                    "id": 2,
+                    "name": "Room 2",
+                    "description": "Room 2 description",
+                    "capacity": 2,
+                    "price": 100,
+                    "available": true
+                }
+            ]

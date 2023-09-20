@@ -1,0 +1,23 @@
+{
+  "name": "booking-kata",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "start:docs": "blueprinter -i ./api-description.apib -s -p 3001",
+    "build:docs": "blueprinter -i ./api-description.apib -o ./api-description.html",
+    "test:integration": "dredd ./api-description.apib http://localhost:3000"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dredd": "^14.1.0",
+    "fastify": "^4.23.2"
+  },
+  "devDependencies": {
+    "@funboxteam/blueprinter": "^6.0.0"
+  }
+}
