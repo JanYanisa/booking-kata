@@ -5,7 +5,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "node index.js",
+    "start:dev": "nodemon index.js",
     "start:docs": "blueprinter -i ./api-description.apib -s -p 3001",
     "build:docs": "blueprinter -i ./api-description.apib -o ./api-description.html",
     "test:integration": "dredd ./api-description.apib http://localhost:3000"
@@ -14,7 +15,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "dredd": "^14.1.0"
+    "dredd": "^14.1.0",
+    "express": "^4.18.2",
+    "nodemon": "^3.0.1"
   },
   "devDependencies": {
     "@funboxteam/blueprinter": "^6.0.0"
