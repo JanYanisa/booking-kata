@@ -14,8 +14,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "dredd": "^14.1.0",
-    "fastify": "^4.23.2"
+    "dredd": "^14.1.0"
   },
   "devDependencies": {
     "@funboxteam/blueprinter": "^6.0.0"
